@@ -28,7 +28,16 @@ jobs:
         run: echo Hello, world from search!
   comment:
     runs-on: ubuntu-latest
+    permissions: 
+      issues: write
     
     steps: 
-      - name: Run a one-line script
-        run: echo Hello, world from comment!
+      - name: Create or Update Comment
+        uses: peter-evans/create-or-update-comment@v1.4.5
+        with:
+          # GITHUB_TOKEN or a repo scoped PAT.
+          token: ${{ github.token }}
+          # The number of the issue or pull request in which to create a comment.
+          issue-number: ${{ github.event.issue.number }}
+          # The comment body.
+          body: "Adding this comment"
