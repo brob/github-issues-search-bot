@@ -32,22 +32,28 @@ jobs:
         
   search:
     runs-on: ubuntu-latest
-    
+    needs: ingest
+    outputs: 
+      comment_body: ${{ steps.1.outputs.comment_body }}
     steps:
-      - name: Search based on issue title
+      - id: '1'
+        name: Search based on issue title
         uses: brob/algolia-issue-search@7cc34a4a7d78f4c3f8c0dfca45ad234485bb4e21
         with: 
           app_id: ${{ secrets.ALGOLIA_APP_ID }}
           api_key: ${{ secrets.ALGOLIA_API_KEY }}
           index_name: ${{ github.event.repository.name }}
           issue_title: ${{ github.event.issue.title }}
+
   comment:
     runs-on: ubuntu-latest
+    needs: search
     permissions: 
       issues: write
     
     steps: 
       - name: Create or Update Comment
+    
         uses: peter-evans/create-or-update-comment@v1.4.5
         with:
           # GITHUB_TOKEN or a repo scoped PAT.
@@ -55,4 +61,4 @@ jobs:
           # The number of the issue or pull request in which to create a comment.
           issue-number: ${{ github.event.issue.number }}
           # The comment body.
-          body: "Adding this comment"
+          body: ${{ needs.search.outputs.comment_body }}
