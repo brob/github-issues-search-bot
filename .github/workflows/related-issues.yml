@@ -16,6 +16,7 @@ jobs:
     steps:
       - name: Add Algolia Record
         uses: chuckmeyer/add-algolia-record@v0
+
         with:
           app_id: ${{ secrets.ALGOLIA_APP_ID }}
           api_key: ${{ secrets.ALGOLIA_API_KEY }}
@@ -33,8 +34,13 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Run a one-line script
-        run: echo Hello, world from search!
+      - name: Search based on issue title
+        uses: brob/algolia-issue-search@v0
+        with: 
+          app_id: ${{ secrets.ALGOLIA_APP_ID }}
+          api_key: ${{ secrets.ALGOLIA_API_KEY }}
+          index_name: ${{ github.event.repository.name }}
+          issue_title: ${{ github.event.issue.title }}
   comment:
     runs-on: ubuntu-latest
     permissions: 
