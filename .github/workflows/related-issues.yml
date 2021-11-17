@@ -69,4 +69,4 @@ jobs:
           # The number of the issue or pull request in which to create a comment.
           issue-number: ${{ github.event.issue.number }}
           # The comment body.
-          body: ${{ steps.markdown.output.result }}
+          body: ${{ steps.markdown.outputs.result }}
