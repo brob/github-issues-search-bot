@@ -52,17 +52,6 @@ jobs:
       issues: write
     
     steps: 
-      - uses: actions/checkout@v2
-
-      - name: Render markdown
-        id: markdown
-        uses: chuhlomin/render-template@v1.2
-        with:
-          template: .github/template.md
-          vars: |
-            mdList: "${{ needs.search.outputs.comment_body }}"
-            List: "${{ needs.search.outputs.issues_list }}"
-            testvar: hello world
       - name: Create or Update Comment
         uses: peter-evans/create-or-update-comment@v1.4.5
         with:
@@ -71,4 +60,7 @@ jobs:
           # The number of the issue or pull request in which to create a comment.
           issue-number: ${{ github.event.issue.number }}
           # The comment body.
-          body: ${{ steps.markdown.outputs.result }}
+          body: |
+            # While you wait, here are related issues:
+            ${{ needs.search.outputs.comment_body }}
+            just a test of post comment
