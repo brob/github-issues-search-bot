@@ -34,6 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs: 
       comment_body: ${{ steps.one.outputs.comment_body }}
+      issues_list: ${{ steps.one.outputs.issues_list }}
     steps:
       - id: one
         name: Search based on issue title
@@ -60,6 +61,7 @@ jobs:
           template: .github/template.md
           vars: |
             mdList: "${{ needs.search.outputs.comment_body }}"
+            List: "${{ needs.search.outputs.issues_list }}"
             testvar: hello world
       - name: Create or Update Comment
         uses: peter-evans/create-or-update-comment@v1.4.5
