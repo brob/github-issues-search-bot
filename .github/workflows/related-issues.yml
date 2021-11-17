@@ -57,7 +57,7 @@ jobs:
         with:
           template: .github/template.md
           vars: |
-            mdList: ${{ needs.search.outputs.comment_body }}
+            mdList: "${{ needs.search.outputs.comment_body }}"
             testvar: hello world
       - name: Create or Update Comment
         uses: peter-evans/create-or-update-comment@v1.4.5
