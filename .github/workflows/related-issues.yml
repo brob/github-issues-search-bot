@@ -38,7 +38,7 @@ jobs:
     steps:
       - id: one
         name: Search based on issue title
-        uses: brob/algolia-issue-search@dc8578c4d65f98892e2f26b75821145f24d98112
+        uses: brob/algolia-issue-search@0ca6bf3df88919a4bfdf1fd87b4ecd425fa3b461
         with: 
           app_id: ${{ secrets.ALGOLIA_APP_ID }}
           api_key: ${{ secrets.ALGOLIA_API_KEY }}
