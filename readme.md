@@ -6,6 +6,12 @@ This bot uses Algolia to index and perform searches against a repository's Issue
 
 ## Usage
 
+The workflow depends on three different Actions. 
+
+1. [An action to search Algolia Records](https://github.com/marketplace/actions/get-algolia-issue-records)
+2. [An action to leave a comment based on the search results](https://github.com/marketplace/actions/create-or-update-comment)
+3. [An action to ingest the inciting Issue into the Algolia Index](https://github.com/marketplace/actions/create-or-update-algolia-index-record)
+
 ```yaml
 # This is a basic workflow to help you get started with Actions
 name: related-issues

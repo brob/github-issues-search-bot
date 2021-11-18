@@ -34,10 +34,10 @@ jobs:
           body: |
             # While you wait, here are related issues:
             ${{ steps.search.outputs.issues_list }}
-            just a test of post comment
+            Thank you so much! We'll be with you shortly!
       - name: Add Algolia Record
         id: ingest
-        uses: chuckmeyer/add-algolia-record@v0
+        uses: chuckmeyer/add-algolia-record@v1
 
         with:
           app_id: ${{ secrets.ALGOLIA_APP_ID }}
