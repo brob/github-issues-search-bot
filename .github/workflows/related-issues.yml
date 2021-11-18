@@ -16,40 +16,40 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: search
-          name: Search based on issue title
-          uses: brob/algolia-issue-search@0ca6bf3df88919a4bfdf1fd87b4ecd425fa3b461
-          with: 
-            app_id: ${{ secrets.ALGOLIA_APP_ID }}
-            api_key: ${{ secrets.ALGOLIA_API_KEY }}
-            index_name: ${{ github.event.repository.name }}
-            issue_title: ${{ github.event.issue.title }}
+        name: Search based on issue title
+        uses: brob/algolia-issue-search@0ca6bf3df88919a4bfdf1fd87b4ecd425fa3b461
+        with: 
+          app_id: ${{ secrets.ALGOLIA_APP_ID }}
+          api_key: ${{ secrets.ALGOLIA_API_KEY }}
+          index_name: ${{ github.event.repository.name }}
+          issue_title: ${{ github.event.issue.title }}
       - name: Create or Update Comment
-          uses: peter-evans/create-or-update-comment@v1.4.5
-          with:
-            # GITHUB_TOKEN or a repo scoped PAT.
-            token: ${{ github.token }}
-            # The number of the issue or pull request in which to create a comment.
-            issue-number: ${{ github.event.issue.number }}
-            # The comment body.
-            body: |
-              # While you wait, here are related issues:
-              ${{ steps.search.outputs.issues_list }}
-              just a test of post comment
+        uses: peter-evans/create-or-update-comment@v1.4.5
+        with:
+          # GITHUB_TOKEN or a repo scoped PAT.
+          token: ${{ github.token }}
+          # The number of the issue or pull request in which to create a comment.
+          issue-number: ${{ github.event.issue.number }}
+          # The comment body.
+          body: |
+            # While you wait, here are related issues:
+            ${{ steps.search.outputs.issues_list }}
+            just a test of post comment
       - name: Add Algolia Record
-          id: ingest
-          uses: chuckmeyer/add-algolia-record@v0
+        id: ingest
+        uses: chuckmeyer/add-algolia-record@v0
 
-          with:
-            app_id: ${{ secrets.ALGOLIA_APP_ID }}
-            api_key: ${{ secrets.ALGOLIA_API_KEY }}
-            index_name: ${{ github.event.repository.name }}
-            record: |
-              {
-                "title": "${{ github.event.issue.title }}", 
-                "url": "${{ github.event.issue.html_url }}", 
-                "labels": "${{ github.event.issue.labels }}",
-                "objectID": "${{ github.event.issue.number }}"
-              }
+        with:
+          app_id: ${{ secrets.ALGOLIA_APP_ID }}
+          api_key: ${{ secrets.ALGOLIA_API_KEY }}
+          index_name: ${{ github.event.repository.name }}
+          record: |
+            {
+              "title": "${{ github.event.issue.title }}", 
+              "url": "${{ github.event.issue.html_url }}", 
+              "labels": "${{ github.event.issue.labels }}",
+              "objectID": "${{ github.event.issue.number }}"
+            }
 
           
   ingest:
